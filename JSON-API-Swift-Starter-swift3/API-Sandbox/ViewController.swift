@@ -19,6 +19,7 @@ class ViewController: UIViewController {
     @IBOutlet weak var releaseDateLabel: UILabel!
     @IBOutlet weak var priceLabel: UILabel!
     @IBOutlet weak var posterImageView: UIImageView!
+    var movieLink: String!
     
     
     override func viewDidLoad() {
@@ -44,9 +45,9 @@ class ViewController: UIViewController {
                     self.rightsOwnerLabel.text = randomMovie.rightsOwner
                     self.releaseDateLabel.text = randomMovie.releaseDate
                     self.priceLabel.text = String(randomMovie.price)
-                    let randomPosterLink = randomMovie.link
+                    let randomPosterLink = randomMovie.poster
                     self.loadPoster(urlString: String(randomPosterLink))
-                    
+                    self.movieLink = randomMovie.link
                     
                 }
             case .failure(let error):
@@ -62,12 +63,17 @@ class ViewController: UIViewController {
     
     // Updates the image view when passed a url string
     func loadPoster(urlString: String) {
-        print("WHY IN TARNATION")
+        
         posterImageView.af_setImage(withURL: URL(string: urlString)!)
     }
     
     @IBAction func viewOniTunesPressed(_ sender: AnyObject) {
-        
+        if let link = movieLink {
+        UIApplication.shared.openURL(URL(string: link)!)
+        }
+        else {
+            print("Error")
+        }
     }
     
 }
